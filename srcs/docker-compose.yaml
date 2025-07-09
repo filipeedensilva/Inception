@@ -3,7 +3,7 @@ services:
   mariadb:
     image: mariadb
     restart: always
-    enviroment:
+    environment:
       MYSQL_ROOT_PASSWORD: secret
     volumes:
-      - .data/:var/lib/mysql
+      - .data:/var/lib/mysql
