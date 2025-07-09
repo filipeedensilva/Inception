@@ -1,0 +1,9 @@
+
+services:
+  mariadb:
+    image: mariadb
+    restart: always
+    enviroment:
+      MYSQL_ROOT_PASSWORD: secret
+    volumes:
+      - .data/:var/lib/mysql
