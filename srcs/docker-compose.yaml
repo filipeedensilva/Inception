@@ -3,7 +3,13 @@ services:
   mariadb:
     image: mariadb
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: secret
-    volumes:
-      - .data:/var/lib/mysql
+    env_file:
+      - .env
+    # volumes:
+      # - .data:/var/lib/mysql
+      #
+
+
+  networks:
+    inception_network:
+      name: inception_network
