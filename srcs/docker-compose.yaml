@@ -1,15 +1,22 @@
 
 services:
   mariadb:
-    image: mariadb
-    restart: always
+    build: ./requirements/mariadb
+    container_name: mariadb
     env_file:
       - .env
-    # volumes:
-      # - .data:/var/lib/mysql
-      #
+    volumes:
+      - maria_vol:/var/lib/mysql
+    restart: on-failure
 
+volumes:
+  maria_vol:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/feden-pe/data/maria_vol
 
-  networks:
-    inception_network:
-      name: inception_network
+networks:
+  inception_network:
+    name: inception_network
