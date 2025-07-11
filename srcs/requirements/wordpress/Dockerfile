@@ -18,3 +18,15 @@ RUN	wget http://wordpress.org/latest.tar.gz && \
 RUN	mv wordpress/*
 
 RUN	chown -R www-data:www-data /var/www/wordpress
+
+RUN	rm -rf wordpress
+
+COPY	./conf/wp-config.php /var/www/html/wp-config.php
+COPY	./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
+
+COPY	setup.sh ~
+RUN	chmod +x ~/setup.sh
+
+EXPOSE	9000
+
+ENTRYPOINT [ "bash", "~/setup.sh" ]
