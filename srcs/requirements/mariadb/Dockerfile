@@ -1,4 +1,4 @@
-FROM	debian:bullseye
+FROM debian:bullseye
 
 RUN	apt-get update && apt-get install mariadb-server -y
 
@@ -6,10 +6,10 @@ RUN	mariadb-install-db --user=mysql --datadir=/var/lib/mysql
 
 RUN	mkdir -p /run/mysqld
 	
-RUN 	chown mysql:mysql /run/mysqld
-RUN 	chown -R mysql:mysql /var/lib/mysql
+RUN chown mysql:mysql /run/mysqld
+RUN	chown -R mysql:mysql /var/lib/mysql
 
-COPY	setup.sh .
+COPY./conf/setup.sh .
 
 RUN	chmod +x setup.sh
 

@@ -11,6 +11,19 @@ services:
       - inception_network
     restart: on-failure
 
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    env_file:
+      - .env
+    volumes:
+      - wordpress_vol:/var/www/html
+    networks:
+      - inception_network
+    depends_on:
+      - mariadb
+    restart: on-failure
+
 volumes:
   mariadb_vol:
     name: mariadb_vol
@@ -19,6 +32,13 @@ volumes:
       type: none
       o: bind
       device: /home/feden-pe/data/mariadb_vol
+  wordpress_vol:
+    name: wordpress_vol
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/feden-pe/data/wordpress_vol
 
 networks:
   inception_network:

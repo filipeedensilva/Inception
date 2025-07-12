@@ -1,32 +1,44 @@
-FROM	debian:bullseye
+FROM debian:bullseye
 
-RUN	apt-get update && \
-	apt-get install php-fpm php-mysql wget unzip curl -y
+RUN apt-get update && apt-get install -y \
+    wget \
+    lsb-release \
+    ca-certificates \
+    apt-transport-https \
+    gnupg2 && \
+    echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list && \
+    wget -qO - https://packages.sury.org/php/apt.gpg | apt-key add -
+
+RUN	apt-get update && apt-get install -y \
+	php8.3 \
+    php8.3-cli \
+    php8.3-fpm \
+    php8.3-mysqli \
+    php8.3-curl \
+    php8.3-mbstring \
+    php8.3-xml \
+    php8.3-gd \
+    php8.3-zip \
+    php8.3-opcache \
+    php8.3-common \
+    php8.3-dom \
+    php8.3-intl \
+    php8.3-readline \
+	unzip \
+	curl \
+	mariadb-client
+
+RUN update-alternatives --install /usr/bin/php php /usr/bin/php8.3 83
 
 RUN	curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
-	chmod +x wp-cli.phar && \
-	mv wp-cli.phar /usr/local/bin/wp
+	chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 
-WORKDIR	/var/www/wordpress
+WORKDIR	/var/www/html
 
-RUN	rm -rf /var/www/html/*
-
-RUN	wget http://wordpress.org/latest.tar.gz && \
-	tar xfz latest.tar.gz && \
-	rm -rf latest.tar.gz
-
-RUN	mv wordpress/*
-
-RUN	chown -R www-data:www-data /var/www/wordpress
-
-RUN	rm -rf wordpress
-
-COPY	./conf/wp-config.php /var/www/html/wp-config.php
-COPY	./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
-
-COPY	setup.sh ~
-RUN	chmod +x ~/setup.sh
+COPY ./conf/www.conf /etc/php/8.3/fpm/pool.d/www.conf
+COPY ./conf/setup.sh /
+RUN	chmod +x /setup.sh
 
 EXPOSE	9000
 
-ENTRYPOINT [ "bash", "~/setup.sh" ]
+ENTRYPOINT [ "sh", "/setup.sh" ]
