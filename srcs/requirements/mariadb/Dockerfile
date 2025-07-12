@@ -9,7 +9,7 @@ RUN	mkdir -p /run/mysqld
 RUN chown mysql:mysql /run/mysqld
 RUN	chown -R mysql:mysql /var/lib/mysql
 
-COPY./conf/setup.sh .
+COPY ./conf/setup.sh .
 
 RUN	chmod +x setup.sh
 
