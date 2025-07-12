@@ -10,8 +10,7 @@ RUN chown mysql:mysql /run/mysqld
 RUN	chown -R mysql:mysql /var/lib/mysql
 
 COPY ./conf/setup.sh .
-
-RUN	chmod +x setup.sh
+RUN  chmod +x setup.sh
 
 EXPOSE	3306
 

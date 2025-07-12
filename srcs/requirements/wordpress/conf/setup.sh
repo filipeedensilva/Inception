@@ -1,8 +1,8 @@
 #!/bin/sh
 
 echo "Setting up Wordpress..."
-until mysqladmin ping -h "$DB_HOST" -p "$DB_PORT" --silent; do
-	echo "Waiting for mariadb..."
+until mysqladmin ping -h"mariadb" -P"3306" --silent; do
+    echo "Waiting for mariadb to be set up..."
     sleep 1
 done
 
@@ -10,13 +10,15 @@ sleep 5
 
 if ! wp core is-installed --allow-root 2> /dev/null; then
 	echo "Wordpress is not installed. Installing now ..."
+	rm -rf /var/www/html/*
 	wp core download --allow-root
 		sleep 3
 	wp config create --allow-root \
 		--dbname="$DB_NAME" \
 		--dbuser="$DB_USER" \
 		--dbpass="$DB_USER_PASSWORD" \
-		--dbhost="$DB_PORT"
+		--dbhost="$DB_HOST"
+	echo "User created!\nStarting to do wp core install"
 	wp core install --allow-root \
 		--url="$DOMAIN" \
 		--title="Inception" \
@@ -24,12 +26,14 @@ if ! wp core is-installed --allow-root 2> /dev/null; then
 		--admin_password="$ADMIN_PASSWORD" \
 		--admin_email="$ADMIN_EMAIL" \
 		--skip-email
+	echo "Wp core installed!"
 
 	chown -R www-data:www-data /var/www/html/wp-content
 
-	wp user create --allow-root "$WP_USER" "$WP_EMAIL" --user_pas="$WP_PASSWORD"
+	wp user create --allow-root "$WP_USER" "$WP_EMAIL" --user_pass="$WP_PASSWORD"
 else
 	echo "WordPress is already installed! Running..."
 fi
 
-exec php-fpm -F -R
+echo "Executing php-fpm8.3"
+exec php-fpm8.3 -F -R

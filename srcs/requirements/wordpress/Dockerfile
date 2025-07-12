@@ -35,9 +35,11 @@ RUN	curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 
 WORKDIR	/var/www/html
 
+RUN mkdir -p /run/php
+
 COPY ./conf/www.conf /etc/php/8.3/fpm/pool.d/www.conf
 COPY ./conf/setup.sh /
-RUN	chmod +x /setup.sh
+RUN  chmod +x /setup.sh
 
 EXPOSE	9000
 
