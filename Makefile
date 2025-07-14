@@ -17,6 +17,8 @@ clean:
 	docker-compose -f $(DOCKER_FILE) down -v --rmi all --remove-orphans
 
 purge:
+	sudo rm -rf $$HOME/data/mariadb_vol/*
+	sudo rm -rf $$HOME/data/wordpress_vol/*
 	- docker stop $$(docker ps -a -q)
 	- docker rm $$(docker ps -a -q)
 	- docker rmi $$(docker images -q)
