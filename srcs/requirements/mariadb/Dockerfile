@@ -9,6 +9,6 @@ RUN chown mysql:mysql /run/mysqld
 COPY ./conf/setup.sh .
 RUN  chmod +x setup.sh
 
-EXPOSE	3306
+EXPOSE 3306
 
 ENTRYPOINT ["sh", "/setup.sh"]

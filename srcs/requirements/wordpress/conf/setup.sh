@@ -30,7 +30,8 @@ if ! wp core is-installed --allow-root 2> /dev/null; then
 
 	chown -R www-data:www-data /var/www/html/wp-content
 
-	wp user create --allow-root "$WP_USER" "$WP_EMAIL" --user_pass="$WP_PASSWORD"
+	wp user create --allow-root "$WP_USER" "$WP_EMAIL" --user_pass="$WP_PASSWORD" --role=author
+	wp theme install "$WP_THEME" --activate --allow-root
 else
 	echo "WordPress is already installed! Running..."
 fi

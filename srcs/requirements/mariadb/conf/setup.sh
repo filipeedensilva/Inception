@@ -13,7 +13,7 @@ if [ -d "/var/lib/mysql/$DB_NAME" ]; then
 else
 	echo "[mariadb:setup.sh] Database '$DB_NAME' doesn't exist, creating it now!"
 	mysql_install_db --user=mysql --ldata=/var/lib/mysql
-	mysqld --user=mysql --datadir=/var/lib/mysql &
+	mysqld_safe --user=mysql --datadir=/var/lib/mysql &
 	sleep 3
 	mysql -u root <<EOF
 	CREATE DATABASE IF NOT EXISTS $DB_NAME;
