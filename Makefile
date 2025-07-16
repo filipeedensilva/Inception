@@ -1,5 +1,7 @@
 DOCKER_FILE := srcs/docker-compose.yaml
 
+all: up
+
 up: volume
 	docker-compose -f $(DOCKER_FILE) up --build
 
@@ -25,3 +27,7 @@ purge:
 	- docker volume rm $$(docker volume ls -q)
 	- docker network rm $$(docker network ls -q)
 	- docker system prune -a -f
+
+re: clean up
+
+ree: purge up
