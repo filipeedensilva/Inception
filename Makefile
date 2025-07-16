@@ -3,20 +3,20 @@ DOCKER_FILE := srcs/docker-compose.yaml
 all: up
 
 up: volume
-	docker-compose -f $(DOCKER_FILE) up --build
+	docker compose -f $(DOCKER_FILE) up --build #-d
 
 stop:
-	docker-compose -f $(DOCKER_FILE) stop
+	docker compose -f $(DOCKER_FILE) stop
 
 down:
-	docker-compose -f $(DOCKER_FILE) down
+	docker compose -f $(DOCKER_FILE) down
 
 volume:
 	@mkdir -p $$HOME/data/mariadb_vol
 	@mkdir -p $$HOME/data/wordpress_vol
 
 clean:
-	docker-compose -f $(DOCKER_FILE) down -v --rmi all --remove-orphans
+	docker compose -f $(DOCKER_FILE) down -v --rmi all --remove-orphans
 
 purge:
 	sudo rm -rf $$HOME/data/mariadb_vol/*
